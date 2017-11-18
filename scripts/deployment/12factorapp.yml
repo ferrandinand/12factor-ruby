@@ -1,0 +1,57 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: factor
+spec:
+  selector:
+    app: 12factorapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http-port
+  type: LoadBalancer
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: 12factorapp
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: 12factorapp
+    spec:
+      containers:
+      - name: 12factorapp
+        image: ferrandinand/12factor-ruby:0.1
+        ports:
+        - name: http-port
+          containerPort: 4000
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: 12factorapp-secrets
+                key: DATABASE_URL
+      - name: postgres
+        image: postgres
+        ports:
+        - name: postgres
+          containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: 12factorapp-secrets
+                key: POSTGRES_DB
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: 12factorapp-secrets
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: 12factorapp-secrets
+                key: POSTGRES_PASSWORD

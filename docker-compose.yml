@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: factor
+  web:
+    build: .
+    environment:
+      DATABASE_URL: postgresql://docker:docker@db/factor
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db

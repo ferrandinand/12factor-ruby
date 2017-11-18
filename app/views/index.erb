@@ -1,0 +1,32 @@
+<html>
+    <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="icon" href="data:,">
+        <link type="text/css" rel="stylesheet" href="/stylesheets/application.css" media="all">
+
+        <title>Person</title>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="logo-container">
+               Random People
+            </div>
+
+           <!-- Display person -->
+            <div class="temp-controls-container centered">
+                <div class="temp-left-container">
+                    <div class="bordered-temp-container">
+                        <div class="temp-results-container" ><%= @person_name %> <%= @person_surname %>
+                          <div class="temp-results-container-unit" ><img src="<%= @person_image %>"></div>
+			                  </div>
+                    </div>
+                </div>
+
+
+           <!-- Display country -->
+                <div class="temp-right-container">
+                    <div class="temp-units-container" ><%= @country %></div>
+                </div>
+            </div>
+       </div>
+    </body>
+</html>
