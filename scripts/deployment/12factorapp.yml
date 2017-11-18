@@ -34,6 +34,33 @@ spec:
               secretKeyRef:
                 name: 12factorapp-secrets
                 key: DATABASE_URL
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: db
+spec:
+  selector:
+    app: postgres
+  ports:
+  - protocol: TCP
+    port: 5432
+    nodePort: 31001
+    targetPort: 5432
+  type: NodePort
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
       - name: postgres
         image: postgres
         ports:
